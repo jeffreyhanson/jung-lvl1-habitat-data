@@ -1,20 +1,19 @@
 
 <!--- README.md is generated from README.Rmd. Please edit that file -->
 
-# Habitat classification data from Jung *et al.* 2020 (100 m global)
+# Habitat classification data from Jung *et al.* 2020
 
 [![lifecycle](https://img.shields.io/badge/Lifecycle-stable-brightgreen.svg)](https://lifecycle.r-lib.org/articles/stages.html)
-[![DOI](https://zenodo.org/badge/TODO.svg)](https://zenodo.org/badge/latestdoi/TODO)
+[![DOI](https://img.shields.io/badge/DOI-10.5281/zenodo.6622029-blue.svg)](https://doi.org/10.5281/zenodo.6622029)
 
-This repository contains code to generate a global habitat
-classification data (based on Jung *et al.* 2020). The habitat
-classification data are provided at two thematic levels (i.e., level 1
-and level 2). Specifically, source data are downloaded from the [Zenodo
-Digital Archive](https://doi.org/10.5281/zenodo.4058356), and then
-projected to the World Behrmann coordinate reference system using (100 m
-resolution; [ESRI:4326 coordinate reference
-system](https://epsg.io/54017)). A processed version of the data can be
-downloaded from the [Zenodo Digital
+This repository contains code to generate global habitat classification
+data (based on Jung *et al.* 2020). The habitat classification data are
+provided at two thematic levels (i.e., level 1 and level 2).
+Specifically, source data are downloaded from the [Zenodo Digital
+Archive](https://doi.org/10.5281/zenodo.4058356), and then projected to
+the World Behrmann coordinate reference system using (100 m resolution;
+[ESRI:4326 coordinate reference system](https://epsg.io/54017)). A
+processed version of the data can be downloaded from the [Zenodo Digital
 Repository](https://zenodo.org/badge/latestdoi/TODO). **All credit
 should go to Jung *et al.* (2020), please cite their work if you use
 this dataset.**
