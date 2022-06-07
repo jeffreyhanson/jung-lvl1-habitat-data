@@ -14,9 +14,9 @@ Archive](https://doi.org/10.5281/zenodo.4058356), and then projected to
 the World Behrmann coordinate reference system using (100 m resolution;
 [ESRI:4326 coordinate reference system](https://epsg.io/54017)). A
 processed version of the data can be downloaded from the [Zenodo Digital
-Repository](https://zenodo.org/badge/latestdoi/TODO). **All credit
-should go to Jung *et al.* (2020), please cite their work if you use
-this dataset.**
+Repository](https://doi.org/10.5281/zenodo.6622029). **All credit should
+go to Jung *et al.* (2020), please cite their work if you use this
+dataset.**
 
 <img src="figures/README-lvl1_map-1.png" style="display: block; margin: auto;" />
 
@@ -30,12 +30,12 @@ The habitat classification data are stored in raster (GeoTIFF) files.
 The level 1 and level 2 data are stored separately. The file names
 contain the version number of the original datasets (i.e., per the
 digital object identifier). The latest version of the files are
-results/jung-lvl1-10-5281\_zenodo-4058819.tif{.R} and
-results/jung-lvl2-10-5281\_zenodo-4058819.tif{.R} (for level 1 and level
-2 data, respectively).
+`results/jung-lvl1-10-5281_zenodo-4058819.tif` and
+`results/jung-lvl2-10-5281_zenodo-4058819.tif` (for level 1 and level 2
+data, respectively).
 
-The metadata for the jung-lvl1-10-5281\_zenodo-4058819.tif{.R} raster
-file is shown below.
+The metadata for the `jung-lvl1-10-5281_zenodo-4058819.tif` raster file
+is shown below.
 
     Driver: GTiff/GeoTIFF
     Files: jung-lvl1-10-5281_zenodo-4058819.tif
@@ -90,8 +90,8 @@ file is shown below.
     Band 1 Block=256x256 Type=UInt16, ColorInterp=Gray
       NoData Value=0
 
-The metadata for the jung-lvl2-10-5281\_zenodo-4058819.tif{.R} raster
-file is shown below.
+The metadata for the `jung-lvl2-10-5281_zenodo-4058819.tif` raster file
+is shown below.
 
     Driver: GTiff/GeoTIFF
     Files: jung-lvl2-10-5281_zenodo-4058819.tif

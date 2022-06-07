@@ -15,7 +15,7 @@ output:
 knitr::opts_chunk$set(fig.path = "figures/README-", fig.align = "center")
 ```
 
-This repository contains code to generate global habitat classification data (based on Jung *et al.* 2020). The habitat classification data are provided at two thematic levels (i.e., level 1 and level 2). Specifically, source data are downloaded from the [Zenodo Digital Archive](https://doi.org/10.5281/zenodo.4058356), and then projected to the World Behrmann coordinate reference system using (100 m resolution; [ESRI:4326 coordinate reference system](https://epsg.io/54017)). A processed version of the data can be downloaded from the [Zenodo Digital Repository](https://zenodo.org/badge/latestdoi/TODO). **All credit should go to Jung *et al.* (2020), please cite their work if you use this dataset.**
+This repository contains code to generate global habitat classification data (based on Jung *et al.* 2020). The habitat classification data are provided at two thematic levels (i.e., level 1 and level 2). Specifically, source data are downloaded from the [Zenodo Digital Archive](https://doi.org/10.5281/zenodo.4058356), and then projected to the World Behrmann coordinate reference system using (100 m resolution; [ESRI:4326 coordinate reference system](https://epsg.io/54017)). A processed version of the data can be downloaded from the [Zenodo Digital Repository](https://doi.org/10.5281/zenodo.6622029). **All credit should go to Jung *et al.* (2020), please cite their work if you use this dataset.**
 
 ```{r "functions", include = FALSE}
 read_clr <- function(x) {
@@ -144,9 +144,9 @@ print(lvl2_plot)
 
 ## Metadata
 
-The habitat classification data are stored in raster (GeoTIFF) files. The level 1 and level 2 data are stored separately. The file names contain the version number of the original datasets (i.e., per the digital object identifier). The latest version of the files are `r lvl1_path`{.R} and `r lvl2_path`{.R} (for level 1 and level 2 data, respectively).
+The habitat classification data are stored in raster (GeoTIFF) files. The level 1 and level 2 data are stored separately. The file names contain the version number of the original datasets (i.e., per the digital object identifier). The latest version of the files are ``r lvl1_path`` and ``r lvl2_path`` (for level 1 and level 2 data, respectively).
 
-The metadata for the `r basename(lvl1_path)`{.R} raster file is shown below.
+The metadata for the ``r basename(lvl1_path)`` raster file is shown below.
 
 ```{r, echo = FALSE, comment = NA}
 withr::with_dir("results", {
@@ -157,7 +157,7 @@ withr::with_dir("results", {
 })
 ```
 
-The metadata for the `r basename(lvl2_path)`{.R} raster file is shown below.
+The metadata for the ``r basename(lvl2_path)`` raster file is shown below.
 
 ```{r, echo = FALSE, comment = NA}
 withr::with_dir("results", {
