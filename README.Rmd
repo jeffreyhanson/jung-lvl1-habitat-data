@@ -1,0 +1,203 @@
+---
+output:
+  rmarkdown::github_document:
+    html_preview: no
+---
+
+<!--- README.md is generated from README.Rmd. Please edit that file -->
+
+# Habitat classification data from Jung *et al.* 2020 (100 m global)
+
+[![lifecycle](https://img.shields.io/badge/Lifecycle-stable-brightgreen.svg)](https://lifecycle.r-lib.org/articles/stages.html)
+[![DOI](https://zenodo.org/badge/TODO.svg)](https://zenodo.org/badge/latestdoi/TODO)
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(fig.path = "figures/README-", fig.align = "center")
+```
+
+This repository contains code to generate a global habitat classification data (based on Jung *et al.* 2020). The habitat classification data are provided at two thematic levels (i.e., level 1 and level 2). Specifically, source data are downloaded from the [Zenodo Digital Archive](https://doi.org/10.5281/zenodo.4058356), and then projected to the World Behrmann coordinate reference system using (100 m resolution; [ESRI:4326 coordinate reference system](https://epsg.io/54017)). A processed version of the data can be downloaded from the [Zenodo Digital Repository](https://zenodo.org/badge/latestdoi/TODO). **All credit should go to Jung *et al.* (2020), please cite their work if you use this dataset.**
+
+```{r "functions", include = FALSE}
+read_clr <- function(x) {
+  txt <- readLines(x)
+  split <- strsplit(txt, " ", fixed = TRUE)
+  split <- split[!lengths(split) == 0]
+  tibble::tibble(
+    value = vapply(split, `[[`, character(1), 1),
+    red = vapply(split, `[[`, character(1), 2),
+    green = vapply(split, `[[`, character(1), 3),
+    blue = vapply(split, `[[`, character(1), 4),
+    alpha = vapply(split, `[[`, character(1), 5),
+    name = vapply(split, FUN.VALUE = character(1), function(x) {
+      paste(x[seq(6, length(x))], collapse = " ")
+    }),
+    color = rgb(red, green, blue, alpha, maxColorValue = 255)
+  )
+}
+```
+
+```{r "preliminary_processing", echo = FALSE, message = FALSE, warning = FALSE}
+# load packages
+library(dplyr)
+library(terra)
+library(ggplot2)
+
+# find file paths
+lvl1_path <- dir("results", "^.*lvl1.*tif$", full.names = TRUE)
+lvl2_path <- dir("results", "^.*lvl2.*tif$", full.names = TRUE)
+
+# find legend data
+lvl1_metadata <- read_clr("data/level1.clr")
+lvl2_metadata <- read_clr("data/level2.clr")
+
+# load raster
+lvl1_raster <- terra::rast(lvl1_path)
+lvl2_raster <- terra::rast(lvl2_path)
+
+# extract data to plot (note that we spatially sample data to reduce run time)
+lvl1_plot_data <-
+  lvl1_raster %>%
+  terra::spatSample(size = 400000, method = "regular", as.raster = TRUE) %>%
+  terra::as.data.frame(xy = TRUE) %>%
+  dplyr::rename(value = 3) %>%
+  dplyr::mutate(title = "Habitat classification (level 1)") %>%
+  dplyr::mutate(subtitle = basename(lvl1_path)) %>%
+  dplyr::mutate(value = as.character(value)) %>%
+  dplyr::left_join(
+    lvl1_metadata %>%
+    dplyr::select(value, color, name),
+    by = "value"
+  )
+
+lvl2_plot_data <-
+  lvl2_raster %>%
+  terra::spatSample(size = 400000, method = "regular", as.raster = TRUE) %>%
+  terra::as.data.frame(xy = TRUE) %>%
+  dplyr::rename(value = 3) %>%
+  dplyr::mutate(title = "Habitat classification (level 2)") %>%
+  dplyr::mutate(subtitle = basename(lvl2_path)) %>%
+  dplyr::mutate(value = as.character(value)) %>%
+  dplyr::left_join(
+    lvl2_metadata %>%
+    dplyr::select(value, color, name),
+    by = "value"
+  )
+
+# create an underlying map
+p <-
+  ggplot() +
+  coord_fixed(expand = FALSE) +
+  facet_wrap(~ title + subtitle) +
+  theme(
+    legend.pos = "hide",
+    axis.ticks = element_blank(),
+    axis.text = element_blank(),
+    axis.title = element_blank(),
+    axis.line = element_blank(),
+    axis.ticks.length = unit(0, "null"),
+    axis.ticks.margin = unit(0, "null"),
+    panel.border = element_blank(),
+    panel.background = element_blank(),
+    panel.grid = element_blank(),
+    legend.text = element_text(size = 8),
+    legend.margin = unit(0, "null"),
+    plot.margin = unit(c(0.001, 0.001, 0.001, 0.01), "pt"),
+    strip.background = ggplot2::element_rect(color = "black", fill = "black"),
+    strip.text = ggplot2::element_text(color = "white")
+  )
+
+# make plots
+lvl1_plot <-
+  p +
+  geom_tile(
+    data = lvl1_plot_data,
+    mapping = aes(x = x, y = y, fill = name)
+  ) +
+  scale_fill_manual(
+    name = "Class",
+    values = setNames(lvl1_metadata$color, lvl1_metadata$name)
+  )
+
+lvl2_plot <-
+  p +
+  geom_tile(
+    data = lvl2_plot_data,
+    mapping = aes(x = x, y = y, fill = name),
+  ) +
+  scale_fill_manual(
+    name = "Class",
+    values = setNames(lvl2_metadata$color, lvl2_metadata$name)
+  )
+```
+
+```{r "lvl1_map", echo = FALSE, message = FALSE, warning = FALSE, fig.height = 2.4, fig.width = 5.0, dpi = 250}
+# render plot
+print(lvl1_plot)
+```
+
+</br>
+
+```{r "lvl2_map", echo = FALSE, message = FALSE, warning = FALSE, fig.height = 2.4, fig.width = 5.0, dpi = 250}
+# render plot
+print(lvl2_plot)
+```
+
+## Metadata
+
+The habitat classification data are stored in raster (GeoTIFF) files. The level 1 and level 2 data are stored separately. The file names contain the version number of the original datasets (i.e., per the digital object identifier). The latest version of the files are `r lvl1_path`{.R} and `r lvl2_path`{.R} (for level 1 and level 2 data, respectively).
+
+The metadata for the `r basename(lvl1_path)`{.R} raster file is shown below.
+
+```{r, echo = FALSE, comment = NA}
+withr::with_dir("results", {
+  cat(
+    system(paste("gdalinfo", basename(lvl1_path)), intern = TRUE),
+    sep = "\n"
+  )
+})
+```
+
+The metadata for the `r basename(lvl2_path)`{.R} raster file is shown below.
+
+```{r, echo = FALSE, comment = NA}
+withr::with_dir("results", {
+  cat(
+    system(paste("gdalinfo", basename(lvl2_path)), intern = TRUE),
+    sep = "\n"
+  )
+})
+```
+
+## Usage
+
+You can run the code to produce the dataset using the system command `make clean all`. After processing has successfully completed, the code will produce two raster (GeoTIFF) files in the `results` directory.
+
+## Software requirements
+
+Operating system
+
+* Ubuntu (21.10) (300 Gb disk space available)
+
+Software
+
+* GNU make (version 4.1)
+* GDAL (version 3.2.2)
+* R (version 4.1.1)
+
+System packages
+
+* `gdal-bin`
+* `libudunits2-dev`
+* `libgdal-dev`
+* `libgeos-dev`
+* `libproj-dev`
+* `libxml2-dev`
+* `libssl-dev`
+
+## Citation
+
+This dataset was derived from Jung *et al.* (2020). If you use this dataset, you should cite their work - they deserve all the credit!
+
+> Jung M, Dahal PR, Butchart SHM, Donald PF, De Lamo X, Lesiv M, Kapos V, Rondinini C, and Visconti P (2020a) A global map of terrestrial habitat types. *Scientific Data*, **7**:1--8. Available at https://doi.org/10.1038/s41597-020-00599-8.
+
+> Jung M, Dahal PR, Butchart SHM, Donald PF, De Lamo X, Lesiv M, Kapos V, Rondinini C, and Visconti P (2020b) A global map of terrestrial habitat types (insert version) [Data set]. *Zenodo Digital Repository*. Available at https://doi.org/10.5281/zenodo.4058819.
