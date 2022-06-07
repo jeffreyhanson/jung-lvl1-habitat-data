@@ -144,7 +144,7 @@ print(lvl2_plot)
 
 ## Metadata
 
-The habitat classification data are stored in raster (GeoTIFF) files. The level 1 and level 2 data are stored separately. The file names contain the version number of the original datasets (i.e., per the digital object identifier). The latest version of the files are ``r lvl1_path`` and ``r lvl2_path`` (for level 1 and level 2 data, respectively).
+The habitat classification data are stored in raster (GeoTIFF) files. The level 1 and level 2 data are stored separately. The file names contain the version number of the original datasets (i.e., per the digital object identifier). The latest version of the files are ``r basename(lvl1_path)`` and ``r basename(lvl2_path)`` (for level 1 and level 2 data, respectively).
 
 The metadata for the ``r basename(lvl1_path)`` raster file is shown below.
 

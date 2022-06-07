@@ -30,9 +30,9 @@ The habitat classification data are stored in raster (GeoTIFF) files.
 The level 1 and level 2 data are stored separately. The file names
 contain the version number of the original datasets (i.e., per the
 digital object identifier). The latest version of the files are
-`results/jung-lvl1-10-5281_zenodo-4058819.tif` and
-`results/jung-lvl2-10-5281_zenodo-4058819.tif` (for level 1 and level 2
-data, respectively).
+`jung-lvl1-10-5281_zenodo-4058819.tif` and
+`jung-lvl2-10-5281_zenodo-4058819.tif` (for level 1 and level 2 data,
+respectively).
 
 The metadata for the `jung-lvl1-10-5281_zenodo-4058819.tif` raster file
 is shown below.
